@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snake Mini</title>
+  <style>
+    :root {
+      --bg: #10131a;
+      --panel: #1a2130;
+      --text: #e6edf7;
+      --muted: #9badc7;
+      --accent: #3ad6a3;
+      --danger: #ff6d6d;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 10%, #20263a 0%, transparent 30%),
+        radial-gradient(circle at 80% 90%, #20263a 0%, transparent 35%),
+        var(--bg);
+    }
+
+    .wrap {
+      width: min(92vw, 700px);
+      background: rgba(16, 19, 26, 0.85);
+      border: 1px solid #2c3650;
+      border-radius: 16px;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 16px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    canvas {
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 1 / 1;
+      background: #0e1320;
+      border: 1px solid #334262;
+      border-radius: 10px;
+      image-rendering: pixelated;
+      justify-self: center;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid #2b3550;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 14px;
+      display: grid;
+      align-content: start;
+      gap: 10px;
+    }
+
+    .panel h1 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .stats {
+      display: grid;
+      gap: 8px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .muted { color: var(--muted); }
+
+    .status {
+      min-height: 1.2em;
+      color: var(--danger);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .actions,
+    .touch-controls {
+      display: grid;
+      gap: 8px;
+    }
+
+    button {
+      border: 0;
+      background: var(--accent);
+      color: #0d1a16;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .touch-controls {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .touch-controls button { padding: 8px; }
+
+    .up { grid-column: 2; }
+    .left { grid-column: 1; }
+    .down { grid-column: 2; }
+    .right { grid-column: 3; }
+
+    .help { line-height: 1.7; font-size: 13px; }
+
+    kbd {
+      font-family: inherit;
+      padding: 2px 6px;
+      border: 1px solid #455273;
+      border-bottom-width: 2px;
+      border-radius: 6px;
+      background: #121a2b;
+      color: #d7e1f4;
+    }
+
+    @media (max-width: 700px) {
+      .wrap { grid-template-columns: 1fr; }
+      canvas { max-width: 360px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <canvas id="game" width="420" height="420" aria-label="Snake game board"></canvas>
+
+    <section class="panel">
+      <h1>Snake Mini</h1>
+
+      <div class="stats">
+        <div class="row"><span class="muted">スコア</span><strong id="score">0</strong></div>
+        <div class="row"><span class="muted">長さ</span><strong id="length">0</strong></div>
+      </div>
+
+      <div id="status" class="status" aria-live="polite"></div>
+
+      <div class="actions">
+        <button id="pause">一時停止</button>
+        <button id="restart">リスタート</button>
+      </div>
+
+      <div class="touch-controls" aria-label="Touch controls">
+        <button class="up" data-dir="up">↑</button>
+        <button class="left" data-dir="left">←</button>
+        <button class="down" data-dir="down">↓</button>
+        <button class="right" data-dir="right">→</button>
+      </div>
+
+      <div class="help">
+        <div><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> / <kbd>WASD</kbd> : 移動</div>
+        <div><kbd>P</kbd> : 一時停止</div>
+        <div><kbd>R</kbd> : リスタート</div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="./snake-game.js"></script>
+</body>
+</html>
